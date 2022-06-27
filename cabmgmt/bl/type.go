@@ -10,7 +10,7 @@ type DL interface {
 	AddCab(cab *cabspec.Cab) (int, error)
 	DeleteCab(cabID int) error
 	ChangeCity(cabID int, cityID int) error
-	UpdateStateOfCab(cabID int, state svcparams.CabState) error
+	UpdateStateOfCab(cabID int, state svcparams.CabState, time int) error
 	GetCabForCity(cityID int) (*cabspec.Cab, error)
 	GetCab(cabID int) (*cabspec.Cab, error)
 

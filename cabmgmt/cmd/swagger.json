@@ -487,10 +487,10 @@
           "format": "int64",
           "x-go-name": "StartCity"
         },
-        "startTime": {
+        "bookingTime": {
           "type": "integer",
           "format": "int64",
-          "x-go-name": "StartTime"
+          "x-go-name": "BookingTime"
         },
         "to": {
           "type": "integer",

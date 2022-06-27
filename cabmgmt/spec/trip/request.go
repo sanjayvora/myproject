@@ -9,9 +9,9 @@ type AddTripRequest struct {
 }
 
 type AddTripParam struct {
-	StartCity int `json:"from"`
-	EndCity   int `json:"to"`
-	StartTime int `json:"startTime"`
+	StartCity   int `json:"from"`
+	EndCity     int `json:"to"`
+	BookingTime int `json:"bookingTime"`
 }
 
 // TripRequest is request schema to start/end trip

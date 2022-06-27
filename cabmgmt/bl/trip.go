@@ -21,11 +21,11 @@ func (c *tripBL) AddTrip(r *spec.AddTripParam) (*spec.AddTripResponse, error) {
 	if err != nil {
 		return nil, err
 	}
-	tripID, err := c.DataLayer.AddTrip(cab.ID, r.StartCity, r.EndCity, r.StartTime)
+	tripID, err := c.DataLayer.AddTrip(cab.ID, r.StartCity, r.EndCity, r.BookingTime)
 	if err != nil {
 		return nil, err
 	}
-	err = c.DataLayer.UpdateStateOfCab(cab.ID, svcparams.CAB_BOOKED)
+	err = c.DataLayer.UpdateStateOfCab(cab.ID, svcparams.CAB_BOOKED, r.BookingTime)
 	if err != nil {
 		return nil, err
 	}
@@ -40,7 +40,7 @@ func (c *tripBL) StartTrip(r *spec.TripRequest) error {
 	}
 	trip.StartTime = r.Param.Time
 	c.DataLayer.UpdateTrip(trip)
-	c.DataLayer.UpdateStateOfCab(trip.CabID, svcparams.CAB_ON_TRIP)
+	c.DataLayer.UpdateStateOfCab(trip.CabID, svcparams.CAB_ON_TRIP, r.Param.Time)
 	return nil
 }
 
@@ -52,6 +52,6 @@ func (c *tripBL) EndTrip(r *spec.TripRequest) error {
 	}
 	trip.EndTime = r.Param.Time
 	c.DataLayer.UpdateTrip(trip)
-	c.DataLayer.UpdateStateOfCab(trip.CabID, svcparams.CAB_IDLE)
+	c.DataLayer.UpdateStateOfCab(trip.CabID, svcparams.CAB_IDLE, r.Param.Time)
 	return nil
 }
