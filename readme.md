@@ -14,3 +14,5 @@ DL layer is not implemented. Only interface is provided.
 Actual implementation would require interacting with database and doing queries on database.
 
 Authorization and authentication support should be added on top of this.
+
+time is stored as epoch to avoid timezone conversion.
