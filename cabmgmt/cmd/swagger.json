@@ -1,0 +1,662 @@
+{
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "schemes": [
+    "https"
+  ],
+  "swagger": "2.0",
+  "info": {
+    "description": "Cab Management Rest Service",
+    "title": "Cab Management Rest Service",
+    "version": "1.0.0"
+  },
+  "host": "cabmgmt.com",
+  "basePath": "/cabmgmt/v1",
+  "paths": {
+    "/cabs": {
+      "post": {
+        "description": "Register new cab with cab details",
+        "tags": [
+          "Cab"
+        ],
+        "summary": "Register new cab",
+        "operationId": "AddCabRequest",
+        "parameters": [
+          {
+            "x-go-name": "Param",
+            "name": "param",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/AddCabParam"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "New cab ID",
+            "schema": {
+              "$ref": "#/definitions/AddCabResponse"
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "500": {
+            "description": "The request was not processed due to an server error."
+          }
+        }
+      }
+    },
+    "/cabs/{cabID}": {
+      "get": {
+        "description": "Get details of an existing cab",
+        "tags": [
+          "Cab"
+        ],
+        "summary": "Get cab details",
+        "operationId": "GetCabRequest",
+        "parameters": [
+          {
+            "type": "integer",
+            "format": "int64",
+            "x-go-name": "CabID",
+            "name": "cabID",
+            "in": "path",
+            "required": true
+          },
+          {
+            "type": "boolean",
+            "x-go-name": "GetCabHistory",
+            "description": "Fetch cab history",
+            "name": "getHistory",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "format": "int64",
+            "x-go-name": "RecordCount",
+            "description": "Last n trip records for the cab.\nDefault brings last *5* trips\nOnly applicable if getHistory is set to true",
+            "name": "count",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Cab details",
+            "schema": {
+              "$ref": "#/definitions/GetCabResponse"
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "404": {
+            "description": "Resource not found"
+          },
+          "500": {
+            "description": "The request was not processed due to an server error."
+          }
+        }
+      },
+      "delete": {
+        "description": "Delete an existing cab",
+        "tags": [
+          "Cab"
+        ],
+        "summary": "Delete an existing cab",
+        "operationId": "DeleteCabRequest",
+        "parameters": [
+          {
+            "type": "integer",
+            "format": "int64",
+            "x-go-name": "CabID",
+            "name": "cabID",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "404": {
+            "description": "Resource not found"
+          },
+          "500": {
+            "description": "The request was not processed due to an server error."
+          }
+        }
+      }
+    },
+    "/cabs/{cabID}/changecity": {
+      "put": {
+        "description": "Change city of a cab",
+        "tags": [
+          "Cab"
+        ],
+        "summary": "Change city of a cab",
+        "operationId": "ChangeCityRequest",
+        "parameters": [
+          {
+            "type": "integer",
+            "format": "int64",
+            "x-go-name": "CabID",
+            "name": "cabID",
+            "in": "path",
+            "required": true
+          },
+          {
+            "x-go-name": "Param",
+            "name": "param",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ChangeCityParam"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "404": {
+            "description": "Resource not found"
+          },
+          "500": {
+            "description": "The request was not processed due to an server error."
+          }
+        }
+      }
+    },
+    "/cities": {
+      "get": {
+        "description": "Add new city with details",
+        "tags": [
+          "City"
+        ],
+        "summary": "Add new city",
+        "operationId": "GetCityRequest",
+        "responses": {
+          "200": {
+            "description": "New city ID",
+            "schema": {
+              "$ref": "#/definitions/GetCityResponse"
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "500": {
+            "description": "The request was not processed due to an server error."
+          }
+        }
+      },
+      "post": {
+        "description": "Add new city with details",
+        "tags": [
+          "City"
+        ],
+        "summary": "Add new city",
+        "operationId": "AddCityRequest",
+        "parameters": [
+          {
+            "x-go-name": "Param",
+            "name": "param",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/AddCityParam"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "New city ID",
+            "schema": {
+              "$ref": "#/definitions/AddCityResponse"
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "500": {
+            "description": "The request was not processed due to an server error."
+          }
+        }
+      }
+    },
+    "/cities/demand": {
+      "get": {
+        "description": "Get high demand cities and peek time.",
+        "tags": [
+          "City"
+        ],
+        "summary": "Get high demand cities",
+        "operationId": "GetDemandRequest",
+        "parameters": [
+          {
+            "type": "integer",
+            "format": "int64",
+            "x-go-name": "Count",
+            "name": "count",
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "City details",
+            "schema": {
+              "$ref": "#/definitions/DemandResponse"
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "404": {
+            "description": "Resource not found"
+          },
+          "500": {
+            "description": "The request was not processed due to an server error."
+          }
+        }
+      }
+    },
+    "/cities/{cityID}": {
+      "delete": {
+        "description": "Delete an existing city. City can only be deleted if there are no more cabs present in the city",
+        "tags": [
+          "City"
+        ],
+        "summary": "Delete an existing city",
+        "operationId": "DeleteCityRequest",
+        "parameters": [
+          {
+            "type": "integer",
+            "format": "int64",
+            "x-go-name": "CityID",
+            "name": "cityID",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "404": {
+            "description": "Resource not found"
+          },
+          "500": {
+            "description": "The request was not processed due to an server error."
+          }
+        }
+      }
+    },
+    "/trips": {
+      "post": {
+        "description": "Add new booking",
+        "tags": [
+          "Trip"
+        ],
+        "summary": "Add Booking",
+        "operationId": "AddTripRequest",
+        "parameters": [
+          {
+            "x-go-name": "Param",
+            "name": "param",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/AddTripParam"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "New trip ID",
+            "schema": {
+              "$ref": "#/definitions/AddTripResponse"
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "500": {
+            "description": "The request was not processed due to an server error."
+          }
+        }
+      }
+    },
+    "/trips/{tripID}/end": {
+      "put": {
+        "description": "End a given trip",
+        "tags": [
+          "Trip"
+        ],
+        "summary": "End a trip",
+        "operationId": "EndTripRequest",
+        "parameters": [
+          {
+            "type": "integer",
+            "format": "int64",
+            "x-go-name": "TripID",
+            "name": "tripID",
+            "in": "path",
+            "required": true
+          },
+          {
+            "x-go-name": "Param",
+            "name": "param",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/TripParam"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "404": {
+            "description": "Resource not found"
+          },
+          "500": {
+            "description": "The request was not processed due to an server error."
+          }
+        }
+      }
+    },
+    "/trips/{tripID}/start": {
+      "put": {
+        "description": "Start a given trip",
+        "tags": [
+          "Trip"
+        ],
+        "summary": "Start a trip",
+        "operationId": "StartTripRequest",
+        "parameters": [
+          {
+            "type": "integer",
+            "format": "int64",
+            "x-go-name": "TripID",
+            "name": "tripID",
+            "in": "path",
+            "required": true
+          },
+          {
+            "x-go-name": "Param",
+            "name": "param",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/TripParam"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "404": {
+            "description": "Resource not found"
+          },
+          "500": {
+            "description": "The request was not processed due to an server error."
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "AddCabParam": {
+      "type": "object",
+      "properties": {
+        "cabModel": {
+          "type": "string",
+          "x-go-name": "Model"
+        },
+        "registrationNumber": {
+          "type": "string",
+          "x-go-name": "RegistationNumber"
+        }
+      },
+      "x-go-package": "myproject/cabmgmt/spec/cab"
+    },
+    "AddCabResponse": {
+      "description": "AddCabResponse is response schema for add cab",
+      "type": "object",
+      "properties": {
+        "cabID": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "CabID"
+        }
+      },
+      "x-go-package": "myproject/cabmgmt/spec/cab"
+    },
+    "AddCityParam": {
+      "type": "object",
+      "properties": {
+        "cityName": {
+          "type": "string",
+          "x-go-name": "Name"
+        },
+        "state": {
+          "type": "string",
+          "x-go-name": "State"
+        }
+      },
+      "x-go-package": "myproject/cabmgmt/spec/city"
+    },
+    "AddCityResponse": {
+      "description": "AddCityResponse is response schema for add city",
+      "type": "object",
+      "properties": {
+        "cityID": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "CityID"
+        }
+      },
+      "x-go-package": "myproject/cabmgmt/spec/city"
+    },
+    "AddTripParam": {
+      "type": "object",
+      "properties": {
+        "from": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "StartCity"
+        },
+        "startTime": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "StartTime"
+        },
+        "to": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "EndCity"
+        }
+      },
+      "x-go-package": "myproject/cabmgmt/spec/trip"
+    },
+    "AddTripResponse": {
+      "description": "AddTripResponse is response schema for add a trip",
+      "type": "object",
+      "properties": {
+        "tripID": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "TripID"
+        }
+      },
+      "x-go-package": "myproject/cabmgmt/spec/trip"
+    },
+    "ChangeCityParam": {
+      "type": "object",
+      "properties": {
+        "cityID": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "CityID"
+        }
+      },
+      "x-go-package": "myproject/cabmgmt/spec/cab"
+    },
+    "CityRecord": {
+      "type": "object",
+      "properties": {
+        "cityName": {
+          "type": "string",
+          "x-go-name": "Name"
+        },
+        "state": {
+          "type": "string",
+          "x-go-name": "State"
+        }
+      },
+      "x-go-package": "myproject/cabmgmt/spec/city"
+    },
+    "DemandResponse": {
+      "description": "DemandResponse is response schema for demands",
+      "type": "object",
+      "properties": {
+        "highDemands": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Demands"
+          },
+          "x-go-name": "Records"
+        }
+      },
+      "x-go-package": "myproject/cabmgmt/spec/city"
+    },
+    "Demands": {
+      "type": "object",
+      "properties": {
+        "cityName": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "CityName"
+        },
+        "peekHour": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "x-go-name": "PeeHour"
+        }
+      },
+      "x-go-package": "myproject/cabmgmt/spec/city"
+    },
+    "GetCabResponse": {
+      "description": "GetCabResponse is response schema for add cab",
+      "type": "object",
+      "properties": {
+        "curCity": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "CurCity"
+        },
+        "model": {
+          "type": "string",
+          "x-go-name": "Model"
+        },
+        "registrationNumber": {
+          "type": "string",
+          "x-go-name": "RegistationNumber"
+        },
+        "trips": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Trip"
+          },
+          "x-go-name": "Trips"
+        }
+      },
+      "x-go-package": "myproject/cabmgmt/spec/cab"
+    },
+    "GetCityResponse": {
+      "description": "GetCityResponse is response schema for list cities",
+      "type": "object",
+      "properties": {
+        "cities": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/CityRecord"
+          },
+          "x-go-name": "CityList"
+        }
+      },
+      "x-go-package": "myproject/cabmgmt/spec/city"
+    },
+    "Trip": {
+      "type": "object",
+      "properties": {
+        "cabID": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "CabID"
+        },
+        "from": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "StartCity"
+        },
+        "to": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "EndCity"
+        },
+        "tripEndTime": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "EndTime"
+        },
+        "tripID": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "ID"
+        },
+        "tripStartTime": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "StartTime"
+        }
+      },
+      "x-go-package": "myproject/cabmgmt/spec/trip"
+    },
+    "TripParam": {
+      "type": "object",
+      "properties": {
+        "time": {
+          "type": "integer",
+          "format": "int64",
+          "x-go-name": "Time"
+        }
+      },
+      "x-go-package": "myproject/cabmgmt/spec/trip"
+    }
+  }
+}
